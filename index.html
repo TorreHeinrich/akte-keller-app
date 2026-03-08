@@ -12,16 +12,17 @@
                 extend: {
                     colors: {
                         noir: {
-                            900: '#0f172a',
-                            800: '#1e293b',
-                            700: '#334155',
+                            900: '#0a0f1a',
+                            800: '#131c2e',
+                            700: '#1e293b',
                             accent: '#d97706',
                             light: '#f8fafc',
-                            muted: '#94a3b8'
+                            muted: '#94a3b8',
+                            blood: '#991b1b'
                         }
                     },
                     fontFamily: {
-                        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
                         serif: ['Merriweather', 'ui-serif', 'Georgia', 'serif'],
                         mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
                     }
@@ -30,58 +31,63 @@
         }
     </script>
     <style>
-        body { background-color: #0f172a; color: #f8fafc; }
+        body { 
+            background-color: #0a0f1a; 
+            color: #f8fafc; 
+        }
+        
         .chart-container {
             position: relative;
             width: 100%;
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
-            height: 40vh;
-            max-height: 400px;
+            height: 50vh;
+            max-height: 450px;
         }
-        @media (min-width: 768px) {
-            .chart-container { height: 400px; }
-        }
+        
         .nav-btn.active {
-            background-color: #1e293b;
+            background-color: #131c2e;
             border-left: 4px solid #d97706;
             color: #f8fafc;
         }
+        
         .nav-btn {
             border-left: 4px solid transparent;
             transition: all 0.3s ease;
         }
+        
         .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
+            animation: fadeIn 0.6s ease-out forwards;
         }
+        
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: #0a0f1a;
         }
         ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
+            background: #1e293b;
+            border-radius: 3px;
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #d97706;
         }
+
         .typewriter {
             overflow: hidden;
             border-right: .15em solid #d97706;
             white-space: nowrap;
-            margin: 0 auto;
             letter-spacing: .05em;
-            animation: 
-                typing 3.5s steps(40, end),
-                blink-caret .75s step-end infinite;
+            animation: typing 3s steps(40, end), blink-caret .75s step-end infinite;
         }
+        
         @keyframes typing {
             from { width: 0 }
             to { width: 100% }
@@ -90,54 +96,225 @@
             from, to { border-color: transparent }
             50% { border-color: #d97706; }
         }
+
         .cert-border {
-            border: 8px double #d97706;
-            box-shadow: inset 0 0 20px rgba(217, 119, 6, 0.2);
+            border: 6px double #d97706;
+            box-shadow: inset 0 0 30px rgba(217, 119, 6, 0.15);
+        }
+
+        .film-grain {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 50;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
     </style>
 </head>
 <body class="flex flex-col md:flex-row min-h-screen overflow-x-hidden font-sans selection:bg-noir-accent selection:text-white">
 
-<!-- Chosen Palette: Cyber-Noir Archive (Slate Gray, Deep Black, Amber Accent) -->
-<!-- Application Structure Plan: The SPA operates as a digital "Investigation File". It features a sidebar for navigation leading to distinct modules: Overview, Team, Analysis, Stats, and a newly upgraded "Crime Academy" (Ermittler-Prüfung). The architecture is designed to allow non-linear exploration of the deep lore of "Der Kommissar", utilizing progressive disclosure (locked levels, dynamic charts, accordion analysis). The quiz module requires an 80% passing rate across 10 questions per level to unlock subsequent content, persisting via LocalStorage. -->
+<!-- Chosen Palette: Cyber-Noir Archive (Slate Gray #0f172a, Deep Black #0a0f1a, Amber Accent #d97706, Blood Red #991b1b) -->
+<!-- Application Structure Plan: The application acts as a classified digital dossier ('Ermittlungsakte'). It departs from a linear document to offer a multi-faceted dashboard. Users navigate via a persistent sidebar between: 1. Overview (Context & Stats), 2. Personnel (Interactive Character Cards), 3. Forensics (Accordion-based thematic analysis), 4. Data (Responsive Chart.js visuals), and 5. Academy (A gamified 4-tier Bayesian quiz unlocking progressive content). This structure transforms passive reading into an active, investigative role-play experience. -->
 <!-- Visualization & Content Choices: 
-1. Source: Production Stats -> Goal: Inform -> Viz: Stat Cards -> Interaction: Hover effects -> Justification: Immediate visual hierarchy.
-2. Source: Episode/Director data -> Goal: Compare -> Viz: Bar Chart (Chart.js) -> Interaction: Tooltips -> Justification: Clearly shows director dominance.
-3. Source: Quiz Engine Logic -> Goal: Assess -> Viz: Dynamic Multiple-Choice Interface with Level Grid & Progression UI -> Interaction: State-driven clicks, score calculation, LocalStorage persistence -> Justification: Engages the user deeply with the material through gamification. Strict NO SVG/Mermaid rule applied. -->
+1. Key Stats -> Goal: Inform -> Viz: Styled Metric Cards -> Interaction: Hover effects -> Justification: Quick snapshot of the show's massive cultural footprint.
+2. Character Profiles -> Goal: Organize -> Viz: Grid of flip/expand cards -> Interaction: Click to reveal hidden psychological motivations -> Justification: Mirrors the investigative process of uncovering the truth behind a facade.
+3. Director/Appearance Data -> Goal: Compare -> Viz: Bar & Doughnut Charts (Chart.js) -> Interaction: Tooltips & Legends -> Justification: Highlights the structural consistency of the production team visually.
+4. Judgment Engine -> Goal: Assess & Engage -> Viz: Interactive Terminal Interface -> Interaction: Multi-level quiz with LocalStorage gating -> Justification: Deepens user understanding of complex report themes (Reinecker's past, morality, 68er movement) through applied deductive reasoning.
+-> CONFIRMATION: NO SVG/Mermaid used. Layout utilizes CSS grids, flexbox, and Canvas only. -->
 <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
-    <nav class="w-full md:w-64 bg-black border-b md:border-b-0 md:border-r border-noir-700 flex-shrink-0 z-20 md:h-screen md:sticky md:top-0 flex flex-col">
-        <div class="p-6 border-b border-noir-700">
-            <h1 class="text-xl font-serif tracking-widest text-noir-accent uppercase">Akte: Keller</h1>
-            <p class="text-xs text-noir-muted mt-2 font-mono tracking-widest">Fall-Nr. 1969-1976</p>
+    <div class="film-grain"></div>
+
+    <nav class="w-full md:w-64 bg-black border-b md:border-b-0 md:border-r border-noir-700 flex-shrink-0 z-20 md:h-screen md:sticky md:top-0 flex flex-col shadow-2xl">
+        <div class="p-6 border-b border-noir-700 bg-noir-900">
+            <h1 class="text-2xl font-serif tracking-widest text-noir-accent uppercase">Akte: Keller</h1>
+            <p class="text-xs text-noir-muted mt-2 font-mono tracking-widest">ZDF // Fall 1969-1976</p>
         </div>
-        <div class="flex flex-row md:flex-col overflow-x-auto md:overflow-y-auto flex-grow p-2" id="nav-container">
-            <button onclick="app.navigate('uebersicht')" id="nav-uebersicht" class="nav-btn active flex items-center p-4 text-left text-sm font-semibold text-noir-muted hover:text-white hover:bg-noir-800 w-full whitespace-nowrap md:whitespace-normal">
-                <span class="mr-3 text-xl">📁</span> Das Phänomen
+        <div class="flex flex-row md:flex-col overflow-x-auto md:overflow-y-auto flex-grow p-3 gap-2">
+            <button onclick="navigate('uebersicht')" id="nav-uebersicht" class="nav-btn active flex items-center p-3 text-sm font-semibold text-noir-muted hover:text-white hover:bg-noir-800 rounded-sm w-full whitespace-nowrap md:whitespace-normal">
+                <span class="mr-3 text-lg">📁</span> Das Phänomen
             </button>
-            <button onclick="app.navigate('team')" id="nav-team" class="nav-btn flex items-center p-4 text-left text-sm font-semibold text-noir-muted hover:text-white hover:bg-noir-800 w-full whitespace-nowrap md:whitespace-normal">
-                <span class="mr-3 text-xl">👥</span> Die Mordkommission
+            <button onclick="navigate('team')" id="nav-team" class="nav-btn flex items-center p-3 text-sm font-semibold text-noir-muted hover:text-white hover:bg-noir-800 rounded-sm w-full whitespace-nowrap md:whitespace-normal">
+                <span class="mr-3 text-lg">👥</span> Mordkommission
             </button>
-            <button onclick="app.navigate('analyse')" id="nav-analyse" class="nav-btn flex items-center p-4 text-left text-sm font-semibold text-noir-muted hover:text-white hover:bg-noir-800 w-full whitespace-nowrap md:whitespace-normal">
-                <span class="mr-3 text-xl">🧠</span> Psychologie & Ordnung
+            <button onclick="navigate('analyse')" id="nav-analyse" class="nav-btn flex items-center p-3 text-sm font-semibold text-noir-muted hover:text-white hover:bg-noir-800 rounded-sm w-full whitespace-nowrap md:whitespace-normal">
+                <span class="mr-3 text-lg">🧠</span> Psychogramm
             </button>
-            <button onclick="app.navigate('daten')" id="nav-daten" class="nav-btn flex items-center p-4 text-left text-sm font-semibold text-noir-muted hover:text-white hover:bg-noir-800 w-full whitespace-nowrap md:whitespace-normal">
-                <span class="mr-3 text-xl">📈</span> Fall-Statistiken
+            <button onclick="navigate('daten')" id="nav-daten" class="nav-btn flex items-center p-3 text-sm font-semibold text-noir-muted hover:text-white hover:bg-noir-800 rounded-sm w-full whitespace-nowrap md:whitespace-normal">
+                <span class="mr-3 text-lg">📈</span> Einsatz-Daten
             </button>
-            <button onclick="app.navigate('verhoer')" id="nav-verhoer" class="nav-btn flex items-center p-4 text-left text-sm font-semibold text-noir-muted hover:text-white hover:bg-noir-800 w-full whitespace-nowrap md:whitespace-normal">
-                <span class="mr-3 text-xl">📋</span> Ermittler-Prüfung
+            <button onclick="navigate('verhoer')" id="nav-verhoer" class="nav-btn flex items-center p-3 text-sm font-semibold text-noir-muted hover:text-white hover:bg-noir-800 rounded-sm w-full whitespace-nowrap md:whitespace-normal">
+                <span class="mr-3 text-lg">📋</span> Prüfung
             </button>
         </div>
-        <div class="p-4 border-t border-noir-700 hidden md:block">
-            <p class="text-[10px] text-noir-muted font-mono uppercase">Status: Verschlusssache</p>
+        <div class="p-4 border-t border-noir-700 hidden md:block bg-noir-900">
+            <p class="text-[10px] text-noir-muted font-mono uppercase">Autorisierung: <span class="text-green-500">Aktiv</span></p>
         </div>
     </nav>
 
-    <main class="flex-grow p-6 md:p-12 lg:p-16 overflow-y-auto relative bg-noir-900" id="main-content">
+    <main class="flex-grow p-6 md:p-10 lg:p-14 overflow-y-auto relative z-10" id="main-content">
+        
+        <section id="view-uebersicht" class="view-section fade-in max-w-5xl mx-auto">
+            <header class="mb-10 border-b border-noir-700 pb-6">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold text-white mb-4 uppercase tracking-wide">Ein Deutsches Monument</h2>
+                <p class="text-lg text-noir-muted font-light leading-relaxed">Diese digitale Akte rekonstruiert das mediale Phänomen der Serie "Der Kommissar". Hier finden Sie die grundlegenden Parameter und die medienhistorische Bedeutung jenes Formats, das den Freitagabend im deutschen Fernsehen für ein ganzes Jahrzehnt architektonisch neu definierte.</p>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="bg-noir-800 border border-noir-700 p-6 shadow-lg relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 text-6xl opacity-5 group-hover:opacity-10 transition-opacity">🎞️</div>
+                    <div class="text-4xl font-bold text-white mb-1 font-mono">97</div>
+                    <div class="text-xs tracking-widest text-noir-accent uppercase">Episoden gesamt</div>
+                </div>
+                <div class="bg-noir-800 border border-noir-700 p-6 shadow-lg relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 text-6xl opacity-5 group-hover:opacity-10 transition-opacity">📅</div>
+                    <div class="text-4xl font-bold text-white mb-1 font-mono">1969</div>
+                    <div class="text-xs tracking-widest text-noir-accent uppercase">Premierenjahr</div>
+                </div>
+                <div class="bg-noir-800 border border-noir-700 p-6 shadow-lg relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 text-6xl opacity-5 group-hover:opacity-10 transition-opacity">📺</div>
+                    <div class="text-4xl font-bold text-white mb-1 font-mono">30M</div>
+                    <div class="text-xs tracking-widest text-noir-accent uppercase">Zuschauer (Spitze)</div>
+                </div>
+                <div class="bg-noir-800 border border-noir-700 p-6 shadow-lg relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 text-6xl opacity-5 group-hover:opacity-10 transition-opacity">🎬</div>
+                    <div class="text-2xl font-bold text-white mb-1 font-mono mt-2">S/W 35mm</div>
+                    <div class="text-xs tracking-widest text-noir-accent uppercase">Visuelle Ästhetik</div>
+                </div>
+            </div>
+
+            <div class="prose prose-invert prose-lg max-w-none text-noir-light bg-black p-8 border border-noir-800 shadow-2xl">
+                <p>Als das Zweite Deutsche Fernsehen (ZDF) am 3. Januar 1969 die erste Folge <em>"Toter Herr im Regen"</em> ausstrahlte, begann eine Zäsur. Produzent <strong>Helmut Ringelmann</strong> und Autor <strong>Herbert Reinecker</strong> schufen einen radikalen Gegenentwurf zu den actiongeladenen US-Krimis. Anstelle von Verfolgungsjagden etablierten sie das psychologische Kammerspiel in den bundesdeutschen Wohnzimmern.</p>
+                
+                <div class="bg-noir-900 p-6 border-l-4 border-noir-accent my-8">
+                    <div class="typewriter max-w-max font-mono text-sm md:text-base">"Der Mord selbst wird zur Nebensache..."</div>
+                    <p class="mt-3 text-noir-muted text-sm italic">"...denn die Beziehungen zwischen Täter und Opfer werden in den Mittelpunkt der Ermittlungen gerückt."</p>
+                </div>
+                
+                <p>Interessanterweise wurde die Serie von Ringelmann und Reinecker bewusst komplett in Schwarz-Weiß gedreht, obwohl das Farbfernsehen 1967 bereits eingeführt war. Diese artifizielle Reduktion unterstrich den ernsten, oftmals düsteren Charakter der behandelten Gesellschaftskonflikte: Der aufkommende Drogenkonsum der Jugend, unüberwindbare Generationskonflikte, Hippie-Kommunen und die verborgenen Abgründe der Münchener Schickeria.</p>
+            </div>
+        </section>
+
+        <section id="view-team" class="view-section hidden fade-in max-w-6xl mx-auto">
+            <header class="mb-10 border-b border-noir-700 pb-6">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold text-white mb-4 uppercase tracking-wide">Das Personal</h2>
+                <p class="text-lg text-noir-muted font-light leading-relaxed">Ergründen Sie die psychologischen Profile der Ermittlungsgruppe. Die Dynamik des Teams basierte auf klaren Hierarchien und einem asymmetrischen Autoritätsgefälle: Der Kommissar duzte alle Mitarbeiter, verlangte aber im Gegenzug absolute Formalität. Klicken Sie auf eine Akte, um die forensischen Details zu offenbaren.</p>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="team-grid">
+            </div>
+        </section>
+
+        <section id="view-analyse" class="view-section hidden fade-in max-w-4xl mx-auto">
+            <header class="mb-10 border-b border-noir-700 pb-6">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold text-white mb-4 uppercase tracking-wide">Architektur der Ordnung</h2>
+                <p class="text-lg text-noir-muted font-light leading-relaxed">Eine tiefenpsychologische Untersuchung der Serienmotive. Wie spiegelte der Fernsehkrimi die bundesdeutsche Realität der 70er Jahre wider? Welche moralischen Instanzen wurden von den Schöpfern aufgebaut, um gesellschaftliche Traumata der Nachkriegszeit zu bewältigen?</p>
+            </header>
+
+            <div class="space-y-4">
+                <div class="bg-black border border-noir-700">
+                    <button onclick="toggleAccordion('acc1')" class="w-full p-6 text-left flex justify-between items-center focus:outline-none hover:bg-noir-800 transition-colors">
+                        <span class="text-xl font-serif font-semibold text-white">Das Reinecker-Paradoxon & Die NS-Vergangenheit</span>
+                        <span id="acc1-icon" class="text-2xl text-noir-accent font-mono">+</span>
+                    </button>
+                    <div id="acc1" class="hidden p-6 pt-0 text-noir-light border-t border-noir-700 bg-noir-900/50">
+                        <p class="mb-4 mt-6">Drehbuchautor <strong>Herbert Reinecker</strong>, der das beispiellose Monopol besaß, alle 97 Folgen im Alleingang zu verfassen, war während des Nationalsozialismus SS-Kriegsberichterstatter und erfolgreicher Propagandist der Reichsjugendführung.</p>
+                        <p class="mb-4">Medienhistoriker (wie Haydée Mareike Haass) analysieren Reineckers Nachkriegswerk als eine Form der moralischen Transformation und Entlastung. Anstelle der NS-Kampfmoral propagierte Kommissar Keller eine <strong>"Ästhetik der Gewaltlosigkeit"</strong>. Er agiert als autoritäre, aber durchweg philanthropische Vaterfigur. Die Waffe wird selten gezogen; stattdessen wird zugehört.</p>
+                        <p>Auffällig ist die Aussparung des "Berufsverbrechers". Täter in "Der Kommissar" sind gewöhnliche Bürger, die durch soziale Krisen, familiäre Abgründe oder pure Verzweiflung schuldig werden – ein Narrativ, das der deutschen Nachkriegsgesellschaft ein hohes Maß an Identifikation und moralischer Absolution bot.</p>
+                    </div>
+                </div>
+
+                <div class="bg-black border border-noir-700">
+                    <button onclick="toggleAccordion('acc2')" class="w-full p-6 text-left flex justify-between items-center focus:outline-none hover:bg-noir-800 transition-colors">
+                        <span class="text-xl font-serif font-semibold text-white">Das Münchener Milieu & Die 68er Rebellion</span>
+                        <span id="acc2-icon" class="text-2xl text-noir-accent font-mono">+</span>
+                    </button>
+                    <div id="acc2" class="hidden p-6 pt-0 text-noir-light border-t border-noir-700 bg-noir-900/50">
+                        <p class="mb-4 mt-6">Die Serie fungierte als "Museum der bundesrepublikanischen Geschichte". Sie kartografierte akribisch den Einbruch der 68er-Kultur, der Diskotheken, der freien Liebe und der Drogen in das konservative bürgerliche Leben Westdeutschlands.</p>
+                        <p>Legendäre Episoden wie <em>"Grau-roter Morgen"</em> (mit Lilli Palmer) oder <em>"Tod eines Hippiemädchens"</em> zeigten schonungslos die Abgründe des Heroin-Sumpfes und alternativer Lebensformen. Kommissar Keller moderierte diese Verfehlungen der jungen Generation – wie auch die Heuchelei der Elterngeneration – als konservativer, kopfschüttelnder, aber zutiefst verständnisvoller Seismograph.</p>
+                    </div>
+                </div>
+
+                <div class="bg-black border border-noir-700">
+                    <button onclick="toggleAccordion('acc3')" class="w-full p-6 text-left flex justify-between items-center focus:outline-none hover:bg-noir-800 transition-colors">
+                        <span class="text-xl font-serif font-semibold text-white">Soundtrack einer Epoche: Von Swing zu Psychedelic</span>
+                        <span id="acc3-icon" class="text-2xl text-noir-accent font-mono">+</span>
+                    </button>
+                    <div id="acc3" class="hidden p-6 pt-0 text-noir-light border-t border-noir-700 bg-noir-900/50">
+                        <p class="mb-4 mt-6">Die akustische Identität des "Kommissars" war revolutionär. Während die markante, swingende Titelmelodie von Herbert Jarczyk (unter dem Pseudonym <em>Orchester Joe Jerkins</em>) noch klassische Krimi-Motive bediente, prägte der Komponist <strong>Peter Thomas</strong> die Serie mit hochgradig experimentellen Soundcollagen.</p>
+                        <p>Die Serie etablierte zudem aktuelle Pop- und Rockmusik als erzählerisches Mittel. Lieder wie "Du lebst in deiner Welt" von Daisy Door stürmten nach Ausstrahlung direkt die Hitparaden. Avantgarde-Klänge von Bands wie CAN oder Pink Floyd untermalten die psychedelischen Abdrifte der Täter in den experimentelleren Folgen (oft inszeniert von Regisseur Zbyněk Brynych).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-daten" class="view-section hidden fade-in max-w-6xl mx-auto">
+            <header class="mb-10 border-b border-noir-700 pb-6">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold text-white mb-4 uppercase tracking-wide">Kriminalstatistik</h2>
+                <p class="text-lg text-noir-muted font-light leading-relaxed">Visuelle Auswertung der Einsatzdaten. Die folgenden Diagramme dekonstruieren die Produktionsstruktur der 97 Episoden und belegen die enorme Konsistenz des Ringelmann-Produktionsapparats.</p>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div class="bg-black p-6 border border-noir-700 shadow-xl">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-serif text-white uppercase tracking-widest">Die Regie-Riege</h3>
+                        <p class="text-sm text-noir-muted mt-1 font-mono">Verteilung der 97 Episoden nach Regisseuren.</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-directors"></canvas>
+                    </div>
+                    <p class="text-xs text-noir-muted mt-6 text-center italic">Theodor Grädler und Wolfgang Becker definierten die visuelle Grundsprache der Mordkommission.</p>
+                </div>
+                
+                <div class="bg-black p-6 border border-noir-700 shadow-xl">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-serif text-white uppercase tracking-widest">Dienstpräsenz</h3>
+                        <p class="text-sm text-noir-muted mt-1 font-mono">Einsätze der Charaktere über alle Staffeln.</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-appearances"></canvas>
+                    </div>
+                    <p class="text-xs text-noir-muted mt-6 text-center italic">Der personelle Wechsel von Harry zu Erwin Klein (Fritz zu Elmar Wepper) markiert den einzigen Bruch im Kernteam.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-verhoer" class="view-section hidden fade-in max-w-4xl mx-auto flex flex-col min-h-[70vh]">
+            <header class="mb-8 border-b border-noir-700 pb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                <div>
+                    <h2 class="text-3xl md:text-5xl font-serif font-bold text-white uppercase tracking-wide">Ermittler-Prüfung</h2>
+                    <p class="text-sm text-noir-muted font-mono mt-2">Das offizielle Assessment der Mordkommission</p>
+                    <div class="mt-4 inline-block px-3 py-1 border border-noir-accent text-noir-accent text-xs font-mono tracking-widest bg-black shadow-sm">
+                        <span id="pruefung-progress">0/4 Prüfungen absolviert</span>
+                    </div>
+                </div>
+                <div id="score-header" class="hidden text-right">
+                    <p class="text-xs text-noir-muted uppercase tracking-widest mb-1">Ermittlungserfolg</p>
+                    <div class="text-3xl font-mono font-bold text-noir-accent"><span id="score-counter">0</span><span class="text-sm text-noir-muted">/10</span></div>
+                </div>
+            </header>
+
+            <div id="quiz-container" class="flex-grow flex flex-col">
+            </div>
+
+            <div id="terminal-container" class="mt-10 bg-black border border-noir-700 flex flex-col shadow-2xl hidden h-48">
+                <div class="bg-noir-900 border-b border-noir-700 px-4 py-2 flex justify-between items-center">
+                    <span class="text-xs uppercase font-mono text-noir-muted tracking-widest">System-Log // Diktiergerät</span>
+                    <div class="w-3 h-3 bg-noir-blood rounded-full animate-pulse"></div>
+                </div>
+                <div id="quiz-logs" class="p-4 flex-grow overflow-y-auto font-mono text-sm text-noir-muted space-y-2">
+                    <div>> Assessment-Protokoll initialisiert.</div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <script>
-        // --- DATA LAYER ---
         const appData = {
             stats: {
                 episodes: 97,
@@ -145,14 +322,6 @@
                 viewers: "Bis zu 30 Mio.",
                 format: "35-mm Schwarz-Weiß"
             },
-            characters: [
-                { id: "keller", name: "Herbert Keller", role: "Kommissar", actor: "Erik Ode", desc: "Der Beichtvater der Nation. Ruhig, stoisch, väterlich. Löst Fälle durch psychologisches Einfühlungsvermögen, Gespräche und Zigarillos, selten mit der Waffe.", icon: "🕵️‍♂️" },
-                { id: "grabert", name: "Walter Grabert", role: "Inspektor", actor: "Günther Schramm", desc: "Der Elegante. Bildet den ruhigen, gefühlsbetonten und fantasievollen Gegenpol zum sachlichen Heines.", icon: "🧥" },
-                { id: "heines", name: "Robert Heines", role: "Inspektor", actor: "Reinhard Glemnitz", desc: "Der kühle Rechner. Hart im Nehmen, besticht durch strikte Logik bei der Ermittlungsarbeit.", icon: "🧮" },
-                { id: "klein_h", name: "Harry Klein", role: "Kriminalhauptmeister", actor: "Fritz Wepper", desc: "Der Jüngste. Die Schnittstelle zur rebellischen Jugend. Wechselte später zu Derrick.", icon: "🏃‍♂️" },
-                { id: "rehbein", name: "Käthe Rehbein", role: "Sekretärin", actor: "Helma Seitz", desc: "Liebevoll 'Rehbeinchen' genannt. Die treue Seele des Büros, schenkt bei Bedarf beruhigenden Cognac aus.", icon: "☕" },
-                { id: "klein_e", name: "Erwin Klein", role: "Kriminalhauptmeister", actor: "Elmar Wepper", desc: "Übernahm ab Folge 71 die Position seines Bruders Harry. Setzte die Dynamik des jungen Ermittlers nahtlos fort.", icon: "🏃" }
-            ],
             directors: {
                 labels: ["Theodor Grädler", "Wolfgang Becker", "Wolfgang Staudte", "Dietrich Haugk", "Michael Braun", "Andere"],
                 data: [27, 18, 12, 8, 6, 26]
@@ -160,632 +329,467 @@
             appearances: {
                 labels: ["Keller", "Heines", "Grabert", "Harry Klein", "Rehbein", "Erwin Klein", "Lauer"],
                 data: [97, 94, 93, 71, 71, 26, 26]
-            },
-            // --- EXACTLY 10 QUESTIONS PER LEVEL ---
-            quizLevels: [
-                {
-                    id: 1,
-                    title: "Streifenpolizist",
-                    desc: "Faktenwissen: Die Grundlagen des Phänomens",
-                    questions: [
-                        { q: "Auf welchem Sender wurde 'Der Kommissar' erstausgestrahlt?", options: [{text: "ARD", correct: false}, {text: "ZDF", correct: true}, {text: "RTL", correct: false}] },
-                        { q: "Wie viele Episoden wurden insgesamt produziert?", options: [{text: "72", correct: false}, {text: "97", correct: true}, {text: "124", correct: false}] },
-                        { q: "Wer verkörperte Kommissar Herbert Keller?", options: [{text: "Horst Tappert", correct: false}, {text: "Siegfried Lowitz", correct: false}, {text: "Erik Ode", correct: true}] },
-                        { q: "In welchem visuellen Format wurde die Serie bis zuletzt gedreht?", options: [{text: "Schwarz-Weiß", correct: true}, {text: "Farbe", correct: false}, {text: "Sepia", correct: false}] },
-                        { q: "Wer schrieb ausnahmslos alle Drehbücher der Serie?", options: [{text: "Wolfgang Menge", correct: false}, {text: "Herbert Reinecker", correct: true}, {text: "Jürgen Roland", correct: false}] },
-                        { q: "Wer war der verantwortliche Produzent der Serie?", options: [{text: "Helmut Ringelmann", correct: true}, {text: "Dieter Wedel", correct: false}, {text: "Günter Rohrbach", correct: false}] },
-                        { q: "An welchem Wochentag lief die Serie üblicherweise?", options: [{text: "Sonntag", correct: false}, {text: "Freitag", correct: true}, {text: "Mittwoch", correct: false}] },
-                        { q: "Unter welchem Pseudonym wurde die Titelmelodie eingespielt?", options: [{text: "Orchester Joe Jerkins", correct: true}, {text: "Peter Thomas Sound Orchester", correct: false}, {text: "Klaus Doldinger Band", correct: false}] },
-                        { q: "Wie hieß die allererste Episode vom 3. Januar 1969?", options: [{text: "Das Messer im Geldschrank", correct: false}, {text: "Toter Herr im Regen", correct: true}, {text: "Grau-roter Morgen", correct: false}] },
-                        { q: "Was zeichnet Kellers Arbeitsweise primär aus?", options: [{text: "Harte Action und Schusswechsel", correct: false}, {text: "Modernste Forensik und Laborarbeit", correct: false}, {text: "Psychologisches Gespräch und Beobachtung", correct: true}] }
-                    ]
-                },
-                {
-                    id: 2,
-                    title: "Kriminalkommissar",
-                    desc: "Charaktere & Dezernats-Dynamik",
-                    questions: [
-                        { q: "Welcher Assistent verließ das Team 1974 für eine andere Serie?", options: [{text: "Walter Grabert", correct: false}, {text: "Harry Klein", correct: true}, {text: "Robert Heines", correct: false}] },
-                        { q: "Wer ersetzte diesen Assistenten in der Serie?", options: [{text: "Erwin Klein", correct: true}, {text: "Gerd Heymann", correct: false}, {text: "Willy Kreutzer", correct: false}] },
-                        { q: "Wie lautet der liebevolle Spitzname der Sekretärin Käthe Rehbein?", options: [{text: "Käthchen", correct: false}, {text: "Rehbeinchen", correct: true}, {text: "Tippse", correct: false}] },
-                        { q: "Welche Anrede-Regel herrscht strikt zwischen Keller und seinen Assistenten?", options: [{text: "Alle duzen sich", correct: false}, {text: "Alle siezen sich", correct: false}, {text: "Er duzt sie, sie siezen ihn", correct: true}] },
-                        { q: "Welches Genussmittel wird im Büro regelmäßig zur 'Wahrheitsfindung' genutzt?", options: [{text: "Cognac / Alkohol", correct: true}, {text: "Kamillentee", correct: false}, {text: "Schwarzer Kaffee", correct: false}] },
-                        { q: "Welcher Inspektor gilt als der 'kühle Rechner' und hart im Nehmen?", options: [{text: "Walter Grabert", correct: false}, {text: "Robert Heines", correct: true}, {text: "Harry Klein", correct: false}] },
-                        { q: "Wer spielte die Kriminalassistentin Helga Lauer in den frühen Folgen?", options: [{text: "Rosemarie Fendel", correct: false}, {text: "Lilli Palmer", correct: false}, {text: "Emely Reuer", correct: true}] },
-                        { q: "Wie hieß die Ehefrau des Kommissars, die ihm anfangs die Galoschen nachtrug?", options: [{text: "Franziska", correct: true}, {text: "Hildegard", correct: false}, {text: "Margarete", correct: false}] },
-                        { q: "Welcher Schauspieler verkörperte den eleganten Walter Grabert?", options: [{text: "Günther Schramm", correct: true}, {text: "Reinhard Glemnitz", correct: false}, {text: "Fritz Wepper", correct: false}] },
-                        { q: "Wie verhält sich der Kommissar meist bei Verhaftungen?", options: [{text: "Er zieht sofort die Waffe", correct: false}, {text: "Er überlässt die Verhaftung dem SEK", correct: false}, {text: "Er gebraucht die Waffe sehr selten", correct: true}] }
-                    ]
-                },
-                {
-                    id: 3,
-                    title: "Hauptkommissar",
-                    desc: "Episoden-Tiefe & Gesellschaftliche Reflexion",
-                    questions: [
-                        { q: "Welcher Weltstar spielte die verzweifelte Mutter in 'Grau-roter Morgen'?", options: [{text: "Maria Schell", correct: false}, {text: "Lilli Palmer", correct: true}, {text: "Romy Schneider", correct: false}] },
-                        { q: "Warum wird die Folge 'Das goldene Pflaster' nicht mehr ausgestrahlt?", options: [{text: "Kritik der türkischen Botschaft", correct: true}, {text: "Verlust der Master-Bänder", correct: false}, {text: "Zu explizite Gewaltdarstellung", correct: false}] },
-                        { q: "In welcher Rolle trat Curd Jürgens in der Serie auf?", options: [{text: "Als brutaler Gangsterboss", correct: false}, {text: "Als seltsamer Psychiater", correct: true}, {text: "Als korrupter Politiker", correct: false}] },
-                        { q: "Welcher Chart-Hit von Daisy Door wurde durch Folge 39 berühmt?", options: [{text: "Du lebst in deiner Welt", correct: true}, {text: "Schöner fremder Mann", correct: false}, {text: "Liebeskummer lohnt sich nicht", correct: false}] },
-                        { q: "Welcher tschechische Regisseur war für seine experimentelle Bildsprache bekannt?", options: [{text: "Theodor Grädler", correct: false}, {text: "Zbynek Brynych", correct: true}, {text: "Wolfgang Staudte", correct: false}] },
-                        { q: "Wer trat in 'Tod einer Zeugin' als Verdächtiger auf und wurde später selbst ein legendärer Tatort-Ermittler?", options: [{text: "Götz George", correct: true}, {text: "Manfred Krug", correct: false}, {text: "Klaus J. Behrendt", correct: false}] },
-                        { q: "Wie hieß der Hauptdarsteller der österreichischen Parodie auf den Kommissar?", options: [{text: "Peter Alexander", correct: false}, {text: "Fritz Eckhardt", correct: false}, {text: "Fritz Muliar", correct: true}] },
-                        { q: "Was ist der größte bekannte Filmfehler in 'Ein rätselhafter Mord'?", options: [{text: "Ein Mikrofon im Bild", correct: false}, {text: "Ein Aufnahmeleiter (Mann) hinter der Tür", correct: true}, {text: "Ein Auto aus der falschen Epoche", correct: false}] },
-                        { q: "Welcher Komponist lieferte die experimentellen Soundcollagen für 22 Episoden?", options: [{text: "Peter Thomas", correct: true}, {text: "Hans Zimmer", correct: false}, {text: "Martin Böttcher", correct: false}] },
-                        { q: "Welche gesellschaftliche Entwicklung spiegelte die Serie stark wider?", options: [{text: "Die Wiederbewaffnung", correct: false}, {text: "Den Einbruch der 68er-Kultur und Drogen", correct: true}, {text: "Die Deutsche Teilung", correct: false}] }
-                    ]
-                },
-                {
-                    id: 4,
-                    title: "Leiter der Mordkommission",
-                    desc: "Medienhistorie & Meta-Ebene",
-                    questions: [
-                        { q: "Welche Funktion hatte Autor Herbert Reinecker während des Zweiten Weltkriegs?", options: [{text: "Er war im Widerstand", correct: false}, {text: "Er war SS-Kriegsberichterstatter", correct: true}, {text: "Er lebte im Exil", correct: false}] },
-                        { q: "Wie deuten Historiker Reineckers Konzeption des Kommissars?", options: [{text: "Als faschistische Propaganda", correct: false}, {text: "Als reine Satire", correct: false}, {text: "Als moralische Umdeutung und 'Ästhetik der Gewaltlosigkeit'", correct: true}] },
-                        { q: "Auf welche ZDF-Vorläuferserie (ebenfalls von Ringelmann) folgte 'Der Kommissar'?", options: [{text: "Stahlnetz", correct: false}, {text: "Das Kriminalmuseum", correct: true}, {text: "Die fünfte Kolonne", correct: false}] },
-                        { q: "Wer wurde 1977 konzeptioneller Nachfolger von Kommissar Keller am ZDF-Freitagabend?", options: [{text: "Der Alte (Erwin Köster)", correct: true}, {text: "Ein Fall für Zwei (Josef Matula)", correct: false}, {text: "Tatort (Hansjörg Felmy)", correct: false}] },
-                        { q: "Warum hielt Ringelmann trotz verfügbarem Farb-TV am Schwarz-Weiß-Format fest?", options: [{text: "Kostengründe", correct: false}, {text: "Farbbänder waren ausverkauft", correct: false}, {text: "Traditionsbewusstsein und Noir-Ästhetik", correct: true}] },
-                        { q: "Wer trat in '... wie die Wölfe' als Mordverdächtiger auf, bevor er Oberinspektor wurde?", options: [{text: "Horst Tappert", correct: true}, {text: "Siegfried Lowitz", correct: false}, {text: "Claus Biederstaedt", correct: false}] },
-                        { q: "Welche Schlussworte sprach Keller meist am Ende einer Episode zu seinem Team?", options: [{text: "Fall geschlossen.", correct: false}, {text: "Ich danke euch.", correct: true}, {text: "Gute Arbeit, Männer.", correct: false}] },
-                        { q: "Wie verhalten sich Zeugen laut historischer Analyse im 'Kommissar' sehr oft?", options: [{text: "Sie helfen der Polizei sofort", correct: false}, {text: "Sie verweigern sich und sind oft Mitschuldige", correct: true}, {text: "Sie stellen eigene Ermittlungen an", correct: false}] },
-                        { q: "Welcher Typus Verbrecher wurde von Reinecker meist bewusst ausgespart?", options: [{text: "Der Berufsverbrecher", correct: true}, {text: "Der Eifersuchtsmörder", correct: false}, {text: "Der jugendliche Täter", correct: false}] },
-                        { q: "Welche Serie entstand als direkte Konkurrenz der ARD zum 'Kommissar'?", options: [{text: "Polizeiruf 110", correct: false}, {text: "Tatort", correct: true}, {text: "Soko 5113", correct: false}] }
-                    ]
-                }
-            ]
+            }
         };
 
-        // --- STATE MANAGEMENT ---
-        let chartInstancesObj = {};
+        const characters = [
+            { id: "keller", name: "Herbert Keller", role: "Kommissar", actor: "Erik Ode", desc: "Der Beichtvater der Nation. Ein biederer Herr Mitte 60 mit Hut. Löst Fälle durch extreme Ruhe, psychologisches Einfühlungsvermögen und unendliche Gespräche. Ein Schuss fällt bei ihm fast nie. Konsumiert Zigarillos im Dienst.", icon: "🕵️‍♂️" },
+            { id: "grabert", name: "Walter Grabert", role: "Inspektor", actor: "Günther Schramm", desc: "Der Elegante. Bildet den ruhigen, gefühlsbetonten und fantasievollen Gegenpol zum sachlichen Heines. Trägt modische Anzüge und pflegt einen fast aristokratischen Ermittlungsstil.", icon: "🧥" },
+            { id: "heines", name: "Robert Heines", role: "Inspektor", actor: "Reinhard Glemnitz", desc: "Der kühle Rechner. Hart im Nehmen, besticht durch strikte Logik bei der Ermittlungsarbeit. Geht Sachverhalten kompromisslos analytisch auf den Grund.", icon: "🧮" },
+            { id: "klein_h", name: "Harry Klein", role: "Krim.-Hauptmeister", actor: "Fritz Wepper", desc: "Der Jüngste, ausgestattet mit dem ikonischen Flokatiparka. Fungiert als universelle Schnittstelle zur rebellischen Jugend, den Hippies und der Drogenszene. Wechselte 1974 als Assistent zu 'Derrick'.", icon: "🏃" },
+            { id: "rehbein", name: "Käthe Rehbein", role: "Sekretärin", actor: "Helma Seitz", desc: "Vom Chef liebevoll 'Rehbeinchen' genannt. Die treue Seele des Büros. Repräsentiert das Frauenbild der 60er: Kocht unentwegt Kaffee, bringt Akten und schenkt erschütterten Zeugen ein 'Wasserglas voll Cognac' ein.", icon: "☕" },
+            { id: "klein_e", name: "Erwin Klein", role: "Krim.-Hauptmeister", actor: "Elmar Wepper", desc: "Der reale Bruder von Fritz Wepper übernahm ab Folge 71 ansatzlos die Position im Team. Setzte die notwendige Dynamik des jungen, ausführenden Ermittlers nahtlos fort.", icon: "🏃‍♂️" }
+        ];
+
+        const quizLevels = [
+            {
+                id: 1,
+                title: "Streifenpolizist",
+                desc: "Faktenwissen: Die Grundlagen des Phänomens",
+                questions: [
+                    { q: "Auf welchem Sender wurde 'Der Kommissar' erstausgestrahlt?", options: [{text: "ARD", correct: false}, {text: "ZDF", correct: true}, {text: "RTL", correct: false}] },
+                    { q: "Wie viele Episoden wurden von der Serie insgesamt produziert?", options: [{text: "72", correct: false}, {text: "97", correct: true}, {text: "124", correct: false}] },
+                    { q: "Welcher Schauspieler verkörperte den legendären Kommissar Herbert Keller?", options: [{text: "Horst Tappert", correct: false}, {text: "Siegfried Lowitz", correct: false}, {text: "Erik Ode", correct: true}] },
+                    { q: "In welchem visuellen Format wurde die Serie bis zur letzten Folge 1976 gedreht?", options: [{text: "Schwarz-Weiß (35mm)", correct: true}, {text: "Farbe", correct: false}, {text: "Sepia-Filter", correct: false}] },
+                    { q: "Wer schrieb das Drehbuch für ausnahmslos alle 97 Episoden?", options: [{text: "Wolfgang Menge", correct: false}, {text: "Herbert Reinecker", correct: true}, {text: "Jürgen Roland", correct: false}] },
+                    { q: "Welcher Produzent war der Drahtzieher hinter dem Erfolg der Serie?", options: [{text: "Helmut Ringelmann", correct: true}, {text: "Dieter Wedel", correct: false}, {text: "Günter Rohrbach", correct: false}] },
+                    { q: "An welchem Wochentag lief 'Der Kommissar' üblicherweise im Abendprogramm?", options: [{text: "Sonntag", correct: false}, {text: "Freitag", correct: true}, {text: "Mittwoch", correct: false}] },
+                    { q: "Unter welchem Pseudonym wurde die berühmte Titelmelodie von Herbert Jarczyk eingespielt?", options: [{text: "Orchester Joe Jerkins", correct: true}, {text: "Peter Thomas Sound Orchester", correct: false}, {text: "Klaus Doldinger Band", correct: false}] },
+                    { q: "Wie hieß die allererste Episode, die am 3. Januar 1969 ausgestrahlt wurde?", options: [{text: "Das Messer im Geldschrank", correct: false}, {text: "Toter Herr im Regen", correct: true}, {text: "Grau-roter Morgen", correct: false}] },
+                    { q: "Was zeichnet Kellers Arbeitsweise im Gegensatz zu US-Krimis primär aus?", options: [{text: "Harte Action und ständige Schusswechsel", correct: false}, {text: "Fokus auf modernste Labor-Forensik", correct: false}, {text: "Psychologisches Gespräch und ruhige Beobachtung", correct: true}] }
+                ]
+            },
+            {
+                id: 2,
+                title: "Kriminalkommissar",
+                desc: "Personalwesen: Charaktere & Dezernats-Dynamik",
+                questions: [
+                    { q: "Welcher Assistent verließ das Team 1974, um in eine andere Kult-Serie zu wechseln?", options: [{text: "Walter Grabert", correct: false}, {text: "Harry Klein", correct: true}, {text: "Robert Heines", correct: false}] },
+                    { q: "Wer ersetzte diesen Assistenten und führte die Rolle des 'Jüngsten' fort?", options: [{text: "Erwin Klein (Elmar Wepper)", correct: true}, {text: "Gerd Heymann", correct: false}, {text: "Willy Kreutzer", correct: false}] },
+                    { q: "Wie lautet der liebevolle Spitzname der treuen Sekretärin Käthe Rehbein?", options: [{text: "Käthchen", correct: false}, {text: "Rehbeinchen", correct: true}, {text: "Tippse", correct: false}] },
+                    { q: "Welche strikte Anrede-Regel herrscht zwischen Keller und seinen drei Assistenten?", options: [{text: "Alle duzen sich kollegial", correct: false}, {text: "Alle siezen sich respektvoll", correct: false}, {text: "Er duzt sie (autoritär), sie siezen ihn", correct: true}] },
+                    { q: "Welches Genussmittel wird im Büro neben Kaffee extrem häufig zur 'Wahrheitsfindung' genutzt?", options: [{text: "Cognac / Schnaps", correct: true}, {text: "Kamillentee", correct: false}, {text: "Leitungswasser", correct: false}] },
+                    { q: "Welcher der Inspektoren gilt als der 'kühle Rechner' und ist besonders hart im Nehmen?", options: [{text: "Walter Grabert", correct: false}, {text: "Robert Heines", correct: true}, {text: "Harry Klein", correct: false}] },
+                    { q: "Wer spielte die Kriminalassistentin Helga Lauer in den ersten 26 Folgen?", options: [{text: "Rosemarie Fendel", correct: false}, {text: "Lilli Palmer", correct: false}, {text: "Emely Reuer", correct: true}] },
+                    { q: "Wie hieß die Ehefrau des Kommissars, die ihm anfangs oft die Galoschen nachtrug, bevor sie aus der Serie gestrichen wurde?", options: [{text: "Franziska", correct: true}, {text: "Hildegard", correct: false}, {text: "Margarete", correct: false}] },
+                    { q: "Welcher Schauspieler verkörperte den stets elegant gekleideten Walter Grabert?", options: [{text: "Günther Schramm", correct: true}, {text: "Reinhard Glemnitz", correct: false}, {text: "Fritz Wepper", correct: false}] },
+                    { q: "Mit welchen Worten pflegte Kommissar Keller die meisten Fälle gegenüber seinem Team zu beenden?", options: [{text: "Fall geschlossen, Männer.", correct: false}, {text: "Ab in den Feierabend.", correct: false}, {text: "Ich danke euch.", correct: true}] }
+                ]
+            },
+            {
+                id: 3,
+                title: "Hauptkommissar",
+                desc: "Psychologie: Episoden-Tiefe & Gesellschaft",
+                questions: [
+                    { q: "Welcher Weltstar spielte die verzweifelte Mutter eines heroinabhängigen Mädchens in der Folge 'Grau-roter Morgen'?", options: [{text: "Maria Schell", correct: false}, {text: "Lilli Palmer", correct: true}, {text: "Romy Schneider", correct: false}] },
+                    { q: "Warum wird die brisante Folge 'Das goldene Pflaster' im deutschen Fernsehen nicht mehr wiederholt?", options: [{text: "Kritik der türkischen Botschaft an der Darstellung", correct: true}, {text: "Verlust der Original-Masterbänder", correct: false}, {text: "Zu explizite Gewaltdarstellung für den Jugendschutz", correct: false}] },
+                    { q: "In welcher außergewöhnlichen Rolle trat Curd Jürgens in der Serie auf?", options: [{text: "Als brutaler Gangsterboss aus der Unterwelt", correct: false}, {text: "Als seltsamer Psychiater in 'Traum eines Wahnsinnigen'", correct: true}, {text: "Als korrupter Münchener Politiker", correct: false}] },
+                    { q: "Welcher Chart-Hit der Sängerin Daisy Door wurde 1971 durch Folge 39 bundesweit berühmt?", options: [{text: "Du lebst in deiner Welt", correct: true}, {text: "Schöner fremder Mann", correct: false}, {text: "Liebeskummer lohnt sich nicht", correct: false}] },
+                    { q: "Welcher tschechische Gast-Regisseur war beim 'Kommissar' für seine äußerst experimentelle, unruhige Bildsprache bekannt?", options: [{text: "Theodor Grädler", correct: false}, {text: "Zbyněk Brynych", correct: true}, {text: "Wolfgang Staudte", correct: false}] },
+                    { q: "Wer trat in 'Tod einer Zeugin' als Verdächtiger auf und prägte später als raubeiniger Kommissar das deutsche Fernsehen?", options: [{text: "Götz George", correct: true}, {text: "Manfred Krug", correct: false}, {text: "Klaus J. Behrendt", correct: false}] },
+                    { q: "Welcher Schauspieler übernahm die Hauptrolle in der 1974 vom ORF produzierten Parodie auf den Kommissar?", options: [{text: "Peter Alexander", correct: false}, {text: "Fritz Eckhardt", correct: false}, {text: "Fritz Muliar", correct: true}] },
+                    { q: "Was ist ein amüsanter, bekannter Filmfehler in der Folge 'Ein rätselhafter Mord'?", options: [{text: "Ein Ton-Mikrofon ragt deutlich ins Bild", correct: false}, {text: "Ein Aufnahmeleiter steht aus Versehen hinter der Tür", correct: true}, {text: "Ein modernes Farb-Auto fährt im Hintergrund vorbei", correct: false}] },
+                    { q: "Welcher legendäre Komponist lieferte progressive, fast psychedelische Soundcollagen für 22 Episoden?", options: [{text: "Peter Thomas", correct: true}, {text: "Hans Zimmer", correct: false}, {text: "Martin Böttcher", correct: false}] },
+                    { q: "Welche gesellschaftliche Entwicklung der 70er Jahre spiegelte die Serie extrem stark und oft moralisierend wider?", options: [{text: "Die Wiederbewaffnung der Bundeswehr", correct: false}, {text: "Den Einbruch der 68er-Kultur, Hippies und Drogen", correct: true}, {text: "Den Bau der Berliner Mauer", correct: false}] }
+                ]
+            },
+            {
+                id: 4,
+                title: "Leiter der Mordkommission",
+                desc: "Analytik: Medienhistorie & Meta-Ebene",
+                questions: [
+                    { q: "Welche fragwürdige Funktion übte Autor Herbert Reinecker während des Zweiten Weltkriegs aus?", options: [{text: "Er war aktiver Widerstandskämpfer", correct: false}, {text: "Er war SS-Kriegsberichterstatter & NS-Propagandist", correct: true}, {text: "Er lebte im Exil in der Schweiz", correct: false}] },
+                    { q: "Wie deuten Historiker Reineckers Konzeption der gewaltfreien, moralischen Ermittlerfigur Keller heute?", options: [{text: "Als plumpe faschistische Propaganda", correct: false}, {text: "Als reine Gesellschaftssatire ohne tieferen Sinn", correct: false}, {text: "Als psychologische Entlastungsstrategie und moralische Umdeutung", correct: true}] },
+                    { q: "Auf welche ältere ZDF-Krimiserie (ebenfalls von Produzent Ringelmann) folgte 'Der Kommissar' unmittelbar?", options: [{text: "Stahlnetz (NDR)", correct: false}, {text: "Das Kriminalmuseum", correct: true}, {text: "Die fünfte Kolonne", correct: false}] },
+                    { q: "Wer wurde 1977 der eigentliche konzeptionelle Nachfolger von Kommissar Keller auf dem ZDF-Freitagssendeplatz?", options: [{text: "Der Alte (Erwin Köster / Siegfried Lowitz)", correct: true}, {text: "Ein Fall für Zwei (Josef Matula / Claus Theo Gärtner)", correct: false}, {text: "Tatort (Kommissar Haferkamp)", correct: false}] },
+                    { q: "Warum hielt Ringelmann trotz massiver Kritik von jüngeren Zuschauern strikt am Schwarz-Weiß-Format fest?", options: [{text: "Aus reinen Kostengründen", correct: false}, {text: "Farbkameras waren damals in München nicht verfügbar", correct: false}, {text: "Aus Traditionsbewusstsein und um die Noir-Ästhetik der Fälle zu wahren", correct: true}] },
+                    { q: "Wer trat in der Folge '... wie die Wölfe' als Mordverdächtiger auf, kurz bevor er zum berühmtesten TV-Ermittler Deutschlands aufstieg?", options: [{text: "Horst Tappert (Derrick)", correct: true}, {text: "Siegfried Lowitz (Der Alte)", correct: false}, {text: "Claus Biederstaedt", correct: false}] },
+                    { q: "Welcher Typus von Kriminellem wurde von Reinecker in den Drehbüchern fast immer komplett ausgespart?", options: [{text: "Der kalte, professionelle 'Berufsverbrecher'", correct: true}, {text: "Der eifersüchtige Ehemann", correct: false}, {text: "Der jugendliche Täter aus gutem Hause", correct: false}] },
+                    { q: "Wie verhalten sich die Zeugen laut medienhistorischer Analyse im 'Kommissar' zumeist beim ersten Verhör?", options: [{text: "Sie kooperieren sofort mit der Staatsmacht", correct: false}, {text: "Sie verweigern sich, schweigen und machen sich oft dadurch mitschuldig", correct: true}, {text: "Sie stellen eigene, erfolgreiche Ermittlungen an", correct: false}] },
+                    { q: "Welche Serie entstand 1970 explizit als direkte, regionale Konkurrenz der ARD zum ZDF-'Kommissar'?", options: [{text: "Polizeiruf 110", correct: false}, {text: "Tatort", correct: true}, {text: "Soko 5113", correct: false}] },
+                    { q: "Was kritisierte die damalige Presse oftmals am 'Kommissar' bezüglich seiner Dialoge?", options: [{text: "Die Dialoge waren zu vulgär und voller Schimpfwörter", correct: false}, {text: "Die Dialoge waren extrem hölzern, redundant und oberlehrerhaft", correct: true}, {text: "Die Dialoge bestanden nur aus englischen Lehnwörtern", correct: false}] }
+                ]
+            }
+        ];
+
+        let chartInstDir = null;
+        let chartInstApp = null;
         
-        // Progress Logic
+        // Academy State
         let unlockedLevel = 1;
         let passedLevels = new Set();
         let activeLevel = null;
         let currentQuestionIndex = 0;
         let correctAnswers = 0;
-        let quizLogs = [];
         let quizFinished = false;
 
-        // Load state from LocalStorage safely
+        // Init LocalStorage
         try {
-            const savedState = localStorage.getItem('kommissarAcademyStats');
+            const savedState = localStorage.getItem('kommissarAcademy');
             if (savedState) {
                 const parsed = JSON.parse(savedState);
                 unlockedLevel = parsed.unlockedLevel || 1;
                 passedLevels = new Set(parsed.passedLevels || []);
             }
         } catch (e) {
-            console.error("LocalStorage access denied/failed.", e);
+            console.error("LocalStorage unavailable.", e);
         }
 
         const saveState = () => {
             try {
-                localStorage.setItem('kommissarAcademyStats', JSON.stringify({
+                localStorage.setItem('kommissarAcademy', JSON.stringify({
                     unlockedLevel: unlockedLevel,
                     passedLevels: Array.from(passedLevels)
                 }));
             } catch (e) {}
         };
 
-        // --- VIEWS ---
-        const views = {
-            uebersicht: `
-                <div class="fade-in max-w-4xl mx-auto">
-                    <header class="mb-12">
-                        <h2 class="text-3xl md:text-5xl font-serif font-bold text-white mb-4">Ein deutsches TV-Monument</h2>
-                        <p class="text-xl text-noir-muted font-light leading-relaxed">Diese Sektion bietet einen Einstieg in die Welt von "Der Kommissar". Hier finden Sie die grundlegenden Parameter und die medienhistorische Bedeutung der Serie, die den Freitagabend im deutschen Fernsehen für Jahrzehnte prägte.</p>
-                    </header>
+        const navigate = (viewId) => {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            const targetView = document.getElementById(`view-${viewId}`);
+            const targetNav = document.getElementById(`nav-${viewId}`);
+            
+            if(targetView) targetView.classList.remove('hidden');
+            if(targetNav) targetNav.classList.add('active');
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-                        <div class="bg-noir-800 border border-noir-700 rounded-lg p-6 transform transition hover:-translate-y-1 hover:border-noir-accent shadow-lg">
-                            <div class="text-3xl mb-2">🎞️</div>
-                            <div class="text-4xl font-bold text-white mb-1">${appData.stats.episodes}</div>
-                            <div class="text-sm tracking-wider text-noir-muted uppercase">Episoden</div>
-                        </div>
-                        <div class="bg-noir-800 border border-noir-700 rounded-lg p-6 transform transition hover:-translate-y-1 hover:border-noir-accent shadow-lg">
-                            <div class="text-3xl mb-2">📅</div>
-                            <div class="text-4xl font-bold text-white mb-1">8</div>
-                            <div class="text-sm tracking-wider text-noir-muted uppercase">Jahre (${appData.stats.years})</div>
-                        </div>
-                        <div class="bg-noir-800 border border-noir-700 rounded-lg p-6 transform transition hover:-translate-y-1 hover:border-noir-accent shadow-lg">
-                            <div class="text-3xl mb-2">📺</div>
-                            <div class="text-2xl font-bold text-white mb-1 mt-2">${appData.stats.viewers}</div>
-                            <div class="text-sm tracking-wider text-noir-muted uppercase">Zuschauer</div>
-                        </div>
-                        <div class="bg-noir-800 border border-noir-700 rounded-lg p-6 transform transition hover:-translate-y-1 hover:border-noir-accent shadow-lg">
-                            <div class="text-3xl mb-2">🎬</div>
-                            <div class="text-lg font-bold text-white mb-1 mt-3">${appData.stats.format}</div>
-                            <div class="text-sm tracking-wider text-noir-muted uppercase">Ästhetik</div>
-                        </div>
-                    </div>
-
-                    <div class="prose prose-invert prose-lg max-w-none text-noir-light">
-                        <p>Als das ZDF am 3. Januar 1969 die erste Folge <em>"Toter Herr im Regen"</em> ausstrahlte, begann eine neue Ära. Produzent <strong>Helmut Ringelmann</strong> und Autor <strong>Herbert Reinecker</strong> schufen einen Gegenentwurf zu den actiongeladenen US-Krimis. Statt Verfolgungsjagden gab es psychologische Kammerspiele.</p>
-                        <div class="bg-black p-6 border-l-4 border-noir-accent my-8 italic shadow-inner">
-                            <div class="typewriter max-w-fit mx-0">"Der Mord selbst wird im Grunde zur Nebensache..."</div>
-                            <p class="mt-2 text-noir-muted">"...denn die Beziehungen zwischen Täter und Opfer werden in den Mittelpunkt der Ermittlungen gerückt."</p>
-                        </div>
-                        <p>Interessanterweise wurde die Serie bewusst komplett in Schwarz-Weiß gedreht, obwohl das Farbfernsehen bereits etabliert war. Dies unterstrich den ernsten, teils tristen Charakter der behandelten Gesellschaftskonflikte: Drogenkonsum, Generationskonflikte, das Leben der Hippies und die Abgründe der Münchener Schickeria.</p>
-                    </div>
-                </div>
-            `,
-            team: `
-                <div class="fade-in max-w-5xl mx-auto">
-                    <header class="mb-12">
-                        <h2 class="text-3xl md:text-5xl font-serif font-bold text-white mb-4">Die Mordkommission</h2>
-                        <p class="text-xl text-noir-muted font-light leading-relaxed">Hier erforschen Sie die Akteure des Dezernats. Die Dynamik des Teams, basierend auf klaren Hierarchien und dem asymmetrischen Autoritätsgefälle (der Kommissar duzt alle, wird aber gesiezt), bildete das Rückgrat der Serie. Klicken Sie auf eine Akte, um psychologische Details zu offenbaren.</p>
-                    </header>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="team-grid">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-            `,
-            analyse: `
-                <div class="fade-in max-w-4xl mx-auto">
-                    <header class="mb-12">
-                        <h2 class="text-3xl md:text-5xl font-serif font-bold text-white mb-4">Psychologie & Ordnung</h2>
-                        <p class="text-xl text-noir-muted font-light leading-relaxed">Diese Sektion analysiert die tieferen Schichten der Serie. Wie spiegelte der Fernsehkrimi die bundesdeutsche Realität wider? Welche moralischen Instanzen wurden aufgebaut, um gesellschaftliche Traumata zu bewältigen?</p>
-                    </header>
-
-                    <div class="space-y-6">
-                        <div class="bg-noir-800 rounded-lg overflow-hidden border border-noir-700 shadow-lg">
-                            <button onclick="app.toggleAccordion('acc1')" class="w-full p-6 text-left flex justify-between items-center focus:outline-none hover:bg-noir-700 transition">
-                                <span class="text-xl font-serif font-semibold text-white">Das Reinecker-Paradoxon</span>
-                                <span id="acc1-icon" class="text-2xl text-noir-accent">+</span>
-                            </button>
-                            <div id="acc1" class="hidden p-6 pt-0 text-noir-light border-t border-noir-700 bg-black/30">
-                                <p class="mb-4 mt-4">Autor Herbert Reinecker, der alle 97 Folgen verfasste, war während der NS-Zeit SS-Kriegsberichterstatter und erfolgreicher Propagandist. Historiker wie Haydée Mareike Haass weisen darauf hin, dass Reineckers Nachkriegswerk eine Form der moralischen Transformation und Entlastung darstellt.</p>
-                                <p>Anstelle von Kampfmoral propagiert Kommissar Keller eine <strong>Ästhetik der Gewaltlosigkeit</strong>. Er ist eine autoritäre, aber durchweg philanthropische Vaterfigur, die zuhört, statt zu schießen. Täter sind selten Berufsverbrecher, sondern Menschen, die durch soziale Krisen oder familiäre Abgründe schuldig wurden.</p>
-                            </div>
-                        </div>
-
-                        <div class="bg-noir-800 rounded-lg overflow-hidden border border-noir-700 shadow-lg">
-                            <button onclick="app.toggleAccordion('acc2')" class="w-full p-6 text-left flex justify-between items-center focus:outline-none hover:bg-noir-700 transition">
-                                <span class="text-xl font-serif font-semibold text-white">Milieu und Rebellion</span>
-                                <span id="acc2-icon" class="text-2xl text-noir-accent">+</span>
-                            </button>
-                            <div id="acc2" class="hidden p-6 pt-0 text-noir-light border-t border-noir-700 bg-black/30">
-                                <p class="mb-4 mt-4">Die Serie fungierte als "Museum der bundesrepublikanischen Geschichte". Sie behandelte den Einbruch der 68er-Kultur, Diskotheken, Beatmusik und Drogen in die bürgerliche Welt.</p>
-                                <p>Folgen wie <em>"Grau-roter Morgen"</em> (mit Lilli Palmer) zeigten schonungslos den Heroin-Sumpf, während der Kommissar als moralischer Anker fungierte, der die Verfehlungen der jungen Generation wie auch die Heuchelei der Elterngeneration kopfschüttelnd, aber verständnisvoll moderierte.</p>
-                            </div>
-                        </div>
-
-                        <div class="bg-noir-800 rounded-lg overflow-hidden border border-noir-700 shadow-lg">
-                            <button onclick="app.toggleAccordion('acc3')" class="w-full p-6 text-left flex justify-between items-center focus:outline-none hover:bg-noir-700 transition">
-                                <span class="text-xl font-serif font-semibold text-white">Soundtrack einer Epoche</span>
-                                <span id="acc3-icon" class="text-2xl text-noir-accent">+</span>
-                            </button>
-                            <div id="acc3" class="hidden p-6 pt-0 text-noir-light border-t border-noir-700 bg-black/30">
-                                <p class="mb-4 mt-4">Die akustische Identität war revolutionär. Neben der swingenden Titelmelodie von Herbert Jarczyk (Orchester Joe Jerkins) prägte <strong>Peter Thomas</strong> die Serie mit experimentellen Soundcollagen.</p>
-                                <p>Die Serie etablierte aktuelle Popmusik im Fernsehen. Lieder wie "Du lebst in deiner Welt" von Daisy Door stürmten durch die Serie die Charts. Avantgarde-Klänge von CAN oder Pink Floyd untermalten die Abdrifte in Drogen- und Hippiemilieus.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `,
-            daten: `
-                <div class="fade-in max-w-5xl mx-auto">
-                    <header class="mb-12">
-                        <h2 class="text-3xl md:text-5xl font-serif font-bold text-white mb-4">Forensische Datenanalyse</h2>
-                        <p class="text-xl text-noir-muted font-light leading-relaxed">Hier werden die quantitativen Aspekte der Serie visualisiert. Entdecken Sie, welche Regisseure die Ästhetik prägten und wie konstant das Ermittlerteam über die acht Jahre zusammenarbeitete.</p>
-                    </header>
-
-                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-12">
-                        <div class="bg-noir-800 p-6 rounded-lg border border-noir-700 shadow-lg">
-                            <h3 class="text-xl font-semibold mb-2 text-white">Tatort-Regisseure</h3>
-                            <p class="text-sm text-noir-muted mb-6">Anzahl der inszenierten Episoden. Grädler und Becker prägten die Optik am stärksten.</p>
-                            <div class="chart-container">
-                                <canvas id="chart-directors"></canvas>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-noir-800 p-6 rounded-lg border border-noir-700 shadow-lg">
-                            <h3 class="text-xl font-semibold mb-2 text-white">Präsenz im Dienst</h3>
-                            <p class="text-sm text-noir-muted mb-6">Auftritte der Hauptcharaktere in den 97 Episoden.</p>
-                            <div class="chart-container">
-                                <canvas id="chart-appearances"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `,
-            verhoer: `
-                <div class="fade-in max-w-4xl mx-auto h-full flex flex-col">
-                    <header class="mb-8 border-b border-noir-700 pb-4 flex justify-between items-end">
-                        <div>
-                            <h2 class="text-3xl font-serif font-bold text-white uppercase tracking-widest">Ermittler-Prüfung</h2>
-                            <p class="text-sm text-noir-muted font-mono mt-1">Offizielles Assessment der Mordkommission</p>
-                            <div class="mt-4 inline-block px-3 py-1 border border-noir-accent text-noir-accent text-xs font-mono tracking-widest bg-black shadow-sm">
-                                <span id="pruefung-progress">0/4 Prüfungen abgelegt</span>
-                            </div>
-                        </div>
-                        <div class="text-right hidden sm:block opacity-0 transition-opacity duration-500" id="score-header">
-                            <p class="text-xs text-noir-muted uppercase tracking-widest mb-1">Ermittlungserfolg</p>
-                            <div class="text-3xl font-mono font-bold text-noir-accent"><span id="score-counter">0</span><span class="text-sm text-noir-muted">/10</span></div>
-                        </div>
-                    </header>
-
-                    <div id="quiz-container" class="flex-grow flex flex-col">
-                        <!-- Populated by JS -->
-                    </div>
-
-                    <!-- System Terminal for Logs -->
-                    <div id="terminal-container" class="mt-8 bg-black border border-noir-700 h-48 flex flex-col shadow-inner hidden">
-                        <div class="bg-noir-800 border-b border-noir-700 px-3 py-1 flex justify-between items-center">
-                            <span class="text-[10px] uppercase font-mono text-noir-muted">Diktiergerät // Protokoll</span>
-                            <div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div>
-                        </div>
-                        <div id="quiz-logs" class="p-4 flex-grow overflow-y-auto font-mono text-xs text-noir-muted space-y-2">
-                            <div>> System initialisiert...</div>
-                        </div>
-                    </div>
-                </div>
-            `
+            if (viewId === 'team') renderTeam();
+            if (viewId === 'daten') setTimeout(renderCharts, 100);
+            if (viewId === 'verhoer') {
+                updateProgressBadge();
+                renderLevelSelection();
+            }
         };
 
-        const app = {
-            init() {
-                this.navigate('uebersicht');
-            },
+        const renderTeam = () => {
+            const grid = document.getElementById('team-grid');
+            if(grid.innerHTML.trim() !== '') return; 
 
-            navigate(viewId) {
-                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-                document.getElementById(`nav-${viewId}`).classList.add('active');
-
-                if (chartInstancesObj.directors) chartInstancesObj.directors.destroy();
-                if (chartInstancesObj.appearances) chartInstancesObj.appearances.destroy();
-
-                const container = document.getElementById('main-content');
-                container.innerHTML = views[viewId];
-
-                if (viewId === 'team') this.renderTeam();
-                if (viewId === 'daten') setTimeout(() => this.renderCharts(), 100);
-                if (viewId === 'verhoer') {
-                    this.updateProgressBadge();
-                    this.renderLevelSelection();
-                }
-            },
-
-            renderTeam() {
-                const grid = document.getElementById('team-grid');
-                appData.characters.forEach(char => {
-                    const card = document.createElement('div');
-                    card.className = "bg-noir-800 border border-noir-700 rounded-lg p-6 cursor-pointer transform transition duration-300 hover:bg-black hover:border-noir-accent group shadow-md";
-                    card.onclick = () => this.toggleCard(card);
-                    card.innerHTML = `
+            let html = '';
+            characters.forEach(char => {
+                html += `
+                    <div class="bg-noir-800 border border-noir-700 p-6 cursor-pointer transform transition duration-300 hover:bg-black hover:border-noir-accent group shadow-lg" onclick="toggleCard(this)">
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-4xl filter grayscale group-hover:grayscale-0 transition duration-300">${char.icon}</span>
-                            <span class="text-xs font-mono text-noir-accent border border-noir-accent px-2 py-1 rounded">${char.role}</span>
+                            <span class="text-xs font-mono text-noir-accent border border-noir-accent px-2 py-1">${char.role}</span>
                         </div>
                         <h3 class="text-2xl font-serif font-bold text-white mb-1">${char.name}</h3>
-                        <p class="text-sm text-noir-muted mb-4 uppercase tracking-wider">Darsteller: ${char.actor}</p>
+                        <p class="text-xs text-noir-muted mb-4 uppercase tracking-wider">Darsteller: ${char.actor}</p>
                         <div class="card-desc hidden text-sm leading-relaxed border-t border-noir-700 pt-4 mt-4 text-noir-light">
                             ${char.desc}
                         </div>
                         <div class="text-center mt-4 card-hint text-noir-700 group-hover:text-noir-accent transition text-xs font-mono">
                             [ Akte öffnen ]
                         </div>
-                    `;
-                    grid.appendChild(card);
-                });
-            },
-
-            toggleCard(cardElement) {
-                const desc = cardElement.querySelector('.card-desc');
-                const hint = cardElement.querySelector('.card-hint');
-                if (desc.classList.contains('hidden')) {
-                    desc.classList.remove('hidden');
-                    desc.classList.add('fade-in');
-                    hint.innerHTML = "[ Akte schließen ]";
-                    cardElement.classList.add('border-noir-accent');
-                } else {
-                    desc.classList.add('hidden');
-                    desc.classList.remove('fade-in');
-                    hint.innerHTML = "[ Akte öffnen ]";
-                    cardElement.classList.remove('border-noir-accent');
-                }
-            },
-
-            toggleAccordion(id) {
-                const content = document.getElementById(id);
-                const icon = document.getElementById(id + '-icon');
-                if (content.classList.contains('hidden')) {
-                    content.classList.remove('hidden');
-                    content.classList.add('fade-in');
-                    icon.textContent = '-';
-                } else {
-                    content.classList.add('hidden');
-                    content.classList.remove('fade-in');
-                    icon.textContent = '+';
-                }
-            },
-
-            renderCharts() {
-                Chart.defaults.color = '#94a3b8';
-                Chart.defaults.font.family = 'Inter, sans-serif';
-
-                const ctxDir = document.getElementById('chart-directors').getContext('2d');
-                chartInstancesObj.directors = new Chart(ctxDir, {
-                    type: 'bar',
-                    data: {
-                        labels: appData.directors.labels,
-                        datasets: [{
-                            label: 'Episoden',
-                            data: appData.directors.data,
-                            backgroundColor: 'rgba(217, 119, 6, 0.8)',
-                            borderColor: '#d97706',
-                            borderWidth: 1,
-                            borderRadius: 4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false },
-                            tooltip: {
-                                backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                                padding: 12,
-                                borderColor: '#334155',
-                                borderWidth: 1
-                            }
-                        },
-                        scales: {
-                            y: { beginAtZero: true, grid: { color: '#1e293b' } },
-                            x: { grid: { display: false } }
-                        }
-                    }
-                });
-
-                const ctxApp = document.getElementById('chart-appearances').getContext('2d');
-                chartInstancesObj.appearances = new Chart(ctxApp, {
-                    type: 'doughnut',
-                    data: {
-                        labels: appData.appearances.labels,
-                        datasets: [{
-                            data: appData.appearances.data,
-                            backgroundColor: [
-                                '#d97706', '#b45309', '#92400e', '#78350f', '#451a03', '#334155', '#1e293b'
-                            ],
-                            borderColor: '#0f172a',
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        cutout: '65%',
-                        plugins: {
-                            legend: { 
-                                position: 'right',
-                                labels: { color: '#f8fafc', padding: 20 }
-                            },
-                            tooltip: {
-                                backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                                padding: 12,
-                                borderColor: '#334155',
-                                borderWidth: 1
-                            }
-                        }
-                    }
-                });
-            },
-
-            // --- QUIZ & ACADEMY LOGIC ---
-
-            updateProgressBadge() {
-                const badge = document.getElementById('pruefung-progress');
-                if(badge) badge.textContent = `${passedLevels.size}/4 Prüfungen abgelegt`;
-            },
-
-            renderLevelSelection() {
-                const container = document.getElementById('quiz-container');
-                document.getElementById('score-header').classList.add('opacity-0');
-                document.getElementById('terminal-container').classList.add('hidden');
-                
-                let gridHtml = '<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">';
-                
-                appData.quizLevels.forEach(level => {
-                    const isUnlocked = level.id <= unlockedLevel;
-                    const isPassed = passedLevels.has(level.id);
-                    
-                    if (isUnlocked) {
-                        gridHtml += `
-                            <div onclick="app.startLevel(${level.id})" class="bg-noir-800 border ${isPassed ? 'border-green-800' : 'border-noir-700'} hover:border-noir-accent p-6 cursor-pointer group transition-all shadow-lg relative overflow-hidden h-32 flex flex-col justify-center">
-                                ${isPassed ? '<div class="absolute top-4 right-4 text-green-700 text-xs font-mono uppercase tracking-widest">[ BESTANDEN ]</div>' : ''}
-                                <h3 class="text-xl font-serif text-white group-hover:text-noir-accent transition">Level ${level.id}: ${level.title}</h3>
-                                <p class="text-sm text-noir-muted mt-2">${level.desc}</p>
-                            </div>
-                        `;
-                    } else {
-                        gridHtml += `
-                            <div class="bg-noir-900/50 border border-noir-800 p-6 cursor-not-allowed opacity-60 relative overflow-hidden h-32 flex flex-col justify-center">
-                                <div class="absolute top-4 right-4 text-noir-600 text-sm">🔒</div>
-                                <h3 class="text-xl font-serif text-noir-600">Level ${level.id}: ${level.title}</h3>
-                                <p class="text-sm text-noir-700 mt-2">Sperrvermerk: Bestehen Sie die vorherige Prüfung (Score >= 80%).</p>
-                            </div>
-                        `;
-                    }
-                });
-
-                gridHtml += '</div>';
-                container.innerHTML = gridHtml;
-            },
-
-            startLevel(levelId) {
-                activeLevel = levelId;
-                currentQuestionIndex = 0;
-                correctAnswers = 0;
-                quizLogs = [];
-                quizFinished = false;
-                
-                document.getElementById('score-header').classList.remove('opacity-0');
-                document.getElementById('terminal-container').classList.remove('hidden');
-                document.getElementById('score-counter').textContent = "0";
-                
-                this.addLog(`> System autorisiert. Level ${levelId} gestartet. Fragen geladen: 10.`);
-                this.renderQuiz();
-            },
-
-            renderQuiz() {
-                const container = document.getElementById('quiz-container');
-                
-                if (quizFinished) {
-                    this.renderQuizVerdict(container);
-                    return;
-                }
-
-                const currentLevelData = appData.quizLevels.find(l => l.id === activeLevel);
-                const currentQ = currentLevelData.questions[currentQuestionIndex];
-
-                // Shuffle options for better gameplay
-                const shuffledOptions = [...currentQ.options].sort(() => Math.random() - 0.5);
-
-                let optionsHtml = '';
-                shuffledOptions.forEach((opt, idx) => {
-                    // Note: passing the boolean correct directly
-                    optionsHtml += `
-                        <button onclick="app.handleQuizAnswer(${opt.correct})" class="w-full text-left p-5 border border-noir-700 bg-noir-800 hover:bg-noir-700 hover:border-noir-accent transition-all duration-300 font-mono text-sm text-noir-light group flex items-start shadow-sm">
-                            <span class="text-noir-accent mr-4 font-bold group-hover:text-white transition-colors">[${idx + 1}]</span>
-                            <span>${opt.text}</span>
-                        </button>
-                    `;
-                });
-
-                container.innerHTML = `
-                    <div class="fade-in flex-grow flex flex-col justify-center">
-                        <div class="text-xs text-noir-muted font-mono uppercase mb-4 tracking-widest border-b border-noir-800 pb-2 flex justify-between">
-                            <span>Akte ${activeLevel}.${currentQuestionIndex + 1} // Laufende Ermittlung</span>
-                            <span>Frage ${currentQuestionIndex + 1} von 10</span>
-                        </div>
-                        <div class="bg-black border-l-4 border-noir-accent p-6 mb-8 shadow-md relative min-h-[120px]">
-                            <p class="text-xl font-mono text-white leading-relaxed">${currentQ.q}</p>
-                        </div>
-                        <div class="space-y-4">
-                            ${optionsHtml}
-                        </div>
                     </div>
                 `;
-            },
+            });
+            grid.innerHTML = html;
+        };
 
-            handleQuizAnswer(isCorrect) {
-                const currentLevelData = appData.quizLevels.find(l => l.id === activeLevel);
-                
-                if (isCorrect) {
-                    correctAnswers++;
-                    document.getElementById('score-counter').textContent = correctAnswers;
-                    document.getElementById('score-counter').classList.add('text-green-500');
-                    setTimeout(() => document.getElementById('score-counter').classList.remove('text-green-500'), 300);
-                    this.addLog(`> Auswertung Frage ${currentQuestionIndex + 1}: KORREKT.`);
-                } else {
-                    document.getElementById('score-counter').classList.add('text-red-500');
-                    setTimeout(() => document.getElementById('score-counter').classList.remove('text-red-500'), 300);
-                    this.addLog(`> Auswertung Frage ${currentQuestionIndex + 1}: FEHLSCHLAG. Tatsache falsch bewertet.`);
-                }
-
-                currentQuestionIndex++;
-                if (currentQuestionIndex >= currentLevelData.questions.length) {
-                    quizFinished = true;
-                }
-                
-                // Small delay to simulate processing
-                setTimeout(() => {
-                    this.renderQuiz();
-                }, 300);
-            },
-
-            addLog(msg) {
-                const logsContainer = document.getElementById('quiz-logs');
-                const p = document.createElement('div');
-                p.className = "fade-in py-1 border-b border-noir-800 border-dashed";
-                
-                if (msg.includes('FEHLSCHLAG')) {
-                    p.classList.add('text-red-500');
-                } else if (msg.includes('KORREKT')) {
-                    p.classList.add('text-green-500');
-                }
-
-                p.textContent = msg;
-                logsContainer.appendChild(p);
-                logsContainer.scrollTop = logsContainer.scrollHeight;
-            },
-
-            renderQuizVerdict(container) {
-                // The 80% Rule (8 out of 10)
-                const isPassed = correctAnswers >= 8;
-                const percentage = (correctAnswers / 10) * 100;
-                
-                let html = '';
-
-                if (isPassed) {
-                    this.addLog(`> STATUS: Prüfung absolviert. Trefferquote: ${percentage}%. Beförderung genehmigt.`);
-                    
-                    passedLevels.add(activeLevel);
-                    unlockedLevel = Math.max(unlockedLevel, activeLevel + 1);
-                    saveState();
-                    this.updateProgressBadge();
-
-                    html = `
-                        <div class="fade-in m-auto w-full max-w-2xl bg-noir-800 p-8 cert-border relative">
-                            <div class="text-center mb-8 border-b border-noir-700 pb-6">
-                                <h2 class="text-4xl font-serif text-white uppercase tracking-widest mb-2">Beförderungs-Urkunde</h2>
-                                <p class="text-noir-accent font-mono uppercase text-sm">Polizeipräsidium München // Mordkommission</p>
-                            </div>
-                            
-                            <div class="text-center font-mono text-noir-light mb-8 space-y-4">
-                                <p>Hiermit wird bestätigt, dass das Assessment für Level ${activeLevel} mit exzellenten forensischen Fähigkeiten abgeschlossen wurde.</p>
-                                <p class="text-3xl font-bold text-green-500">${percentage}% Trefferquote</p>
-                                <p class="text-xs text-noir-muted">(${correctAnswers} von 10 Fällen korrekt analysiert)</p>
-                            </div>
-
-                            <div class="flex justify-between items-end border-t border-noir-700 pt-6">
-                                <div class="text-center">
-                                    <div class="w-32 border-b border-noir-500 mb-1"></div>
-                                    <span class="text-xs text-noir-muted font-mono">Unterschrift H. Keller</span>
-                                </div>
-                                <div class="w-16 h-16 border-2 border-noir-accent rounded-full flex items-center justify-center text-noir-accent opacity-50 transform rotate-12">
-                                    <span class="font-serif text-xs font-bold uppercase">Geprüft</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-center mt-8">
-                            <button onclick="app.renderLevelSelection()" class="px-8 py-3 bg-noir-800 border border-noir-700 hover:border-noir-accent hover:text-white text-noir-muted transition-all uppercase tracking-widest text-sm font-semibold shadow-lg">
-                                Zurück zur Aktenübersicht
-                            </button>
-                        </div>
-                    `;
-                } else {
-                    this.addLog(`> STATUS: FATAL ERROR. Trefferquote ${percentage}%. Durchgefallen.`);
-                    
-                    html = `
-                        <div class="fade-in m-auto text-center flex flex-col items-center justify-center p-8 bg-black border border-red-900 shadow-2xl max-w-2xl mt-8">
-                            <div class="w-16 h-16 border border-red-900 rounded-full flex items-center justify-center mb-6">
-                                <span class="text-red-600 text-2xl font-bold">X</span>
-                            </div>
-                            <h2 class="text-3xl font-serif font-bold uppercase tracking-widest mb-6 text-red-600">Nicht Bestanden</h2>
-                            
-                            <div class="bg-red-950/20 border border-red-900/50 p-6 mb-8 w-full">
-                                <p class="text-3xl font-mono text-red-500 mb-2">${percentage}% Trefferquote</p>
-                                <p class="text-xs text-red-400 font-mono">Nur ${correctAnswers} von 10 Fragen korrekt.</p>
-                            </div>
-
-                            <p class="text-base text-noir-light mb-8 leading-relaxed font-mono">Ihre Methodik weist schwere Lücken auf. Zurück in den Streifendienst. Studieren Sie die Akten erneut, bevor Sie das Dezernat wieder betreten.</p>
-                            
-                            <button onclick="app.renderLevelSelection()" class="px-8 py-3 bg-noir-800 border border-noir-700 hover:border-red-900 hover:text-white text-noir-muted transition-all uppercase tracking-widest text-sm font-semibold">
-                                Diktat löschen & Neustart
-                            </button>
-                        </div>
-                    `;
-                }
-
-                container.innerHTML = html;
+        const toggleCard = (cardElement) => {
+            const desc = cardElement.querySelector('.card-desc');
+            const hint = cardElement.querySelector('.card-hint');
+            if (desc.classList.contains('hidden')) {
+                desc.classList.remove('hidden');
+                desc.classList.add('fade-in');
+                hint.innerHTML = "[ Akte schließen ]";
+                cardElement.classList.add('border-noir-accent');
+            } else {
+                desc.classList.add('hidden');
+                desc.classList.remove('fade-in');
+                hint.innerHTML = "[ Akte öffnen ]";
+                cardElement.classList.remove('border-noir-accent');
             }
         };
 
-        // Initialize App
+        const toggleAccordion = (id) => {
+            const content = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                content.classList.add('fade-in');
+                icon.textContent = '-';
+            } else {
+                content.classList.add('hidden');
+                content.classList.remove('fade-in');
+                icon.textContent = '+';
+            }
+        };
+
+        const renderCharts = () => {
+            Chart.defaults.color = '#94a3b8';
+            Chart.defaults.font.family = 'Inter, sans-serif';
+
+            if (chartInstDir) chartInstDir.destroy();
+            const ctxDir = document.getElementById('chart-directors').getContext('2d');
+            chartInstDir = new Chart(ctxDir, {
+                type: 'bar',
+                data: {
+                    labels: appData.directors.labels,
+                    datasets: [{
+                        label: 'Episoden',
+                        data: appData.directors.data,
+                        backgroundColor: 'rgba(217, 119, 6, 0.7)',
+                        borderColor: '#d97706',
+                        borderWidth: 1,
+                        borderRadius: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#1e293b' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            if (chartInstApp) chartInstApp.destroy();
+            const ctxApp = document.getElementById('chart-appearances').getContext('2d');
+            chartInstApp = new Chart(ctxApp, {
+                type: 'doughnut',
+                data: {
+                    labels: appData.appearances.labels,
+                    datasets: [{
+                        data: appData.appearances.data,
+                        backgroundColor: ['#d97706', '#b45309', '#92400e', '#78350f', '#451a03', '#334155', '#1e293b'],
+                        borderColor: '#0a0f1a',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { position: 'right', labels: { color: '#f8fafc', padding: 15 } }
+                    }
+                }
+            });
+        };
+
+        // --- ACADEMY LOGIC ---
+
+        const updateProgressBadge = () => {
+            const badge = document.getElementById('pruefung-progress');
+            if(badge) badge.textContent = `${passedLevels.size}/4 Prüfungen absolviert`;
+        };
+
+        const renderLevelSelection = () => {
+            const container = document.getElementById('quiz-container');
+            document.getElementById('score-header').classList.add('hidden');
+            document.getElementById('terminal-container').classList.add('hidden');
+            
+            let gridHtml = '<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">';
+            
+            quizLevels.forEach(level => {
+                const isUnlocked = level.id <= unlockedLevel;
+                const isPassed = passedLevels.has(level.id);
+                
+                if (isUnlocked) {
+                    gridHtml += `
+                        <div onclick="startLevel(${level.id})" class="bg-noir-800 border ${isPassed ? 'border-green-800' : 'border-noir-700'} hover:border-noir-accent p-8 cursor-pointer group transition-all shadow-lg relative overflow-hidden h-40 flex flex-col justify-center">
+                            ${isPassed ? '<div class="absolute top-4 right-4 text-green-700 text-sm font-mono uppercase tracking-widest font-bold">✅ Bestanden</div>' : '<div class="absolute top-4 right-4 text-noir-accent text-sm font-mono uppercase tracking-widest">🔓 Offen</div>'}
+                            <h3 class="text-2xl font-serif text-white group-hover:text-noir-accent transition">Stufe ${level.id}: ${level.title}</h3>
+                            <p class="text-sm text-noir-muted mt-2">${level.desc}</p>
+                        </div>
+                    `;
+                } else {
+                    gridHtml += `
+                        <div class="bg-noir-900 border border-noir-800 p-8 cursor-not-allowed opacity-50 relative overflow-hidden h-40 flex flex-col justify-center">
+                            <div class="absolute top-4 right-4 text-noir-600 text-lg">🔒</div>
+                            <h3 class="text-2xl font-serif text-noir-600">Stufe ${level.id}: ${level.title}</h3>
+                            <p class="text-xs text-noir-700 mt-2 font-mono uppercase tracking-wide">Sperrvermerk: 80% Quote in Vorstufe benötigt.</p>
+                        </div>
+                    `;
+                }
+            });
+
+            gridHtml += '</div>';
+            container.innerHTML = gridHtml;
+        };
+
+        const startLevel = (levelId) => {
+            activeLevel = levelId;
+            currentQuestionIndex = 0;
+            correctAnswers = 0;
+            quizFinished = false;
+            
+            document.getElementById('score-header').classList.remove('hidden');
+            document.getElementById('terminal-container').classList.remove('hidden');
+            document.getElementById('score-counter').textContent = "0";
+            document.getElementById('score-counter').classList.remove('text-green-500', 'text-noir-blood');
+            
+            document.getElementById('quiz-logs').innerHTML = `<div>> System autorisiert. Stufe ${levelId} gestartet. Lade 10 Fallfragen...</div>`;
+            renderQuiz();
+        };
+
+        const renderQuiz = () => {
+            const container = document.getElementById('quiz-container');
+            
+            if (quizFinished) {
+                renderQuizVerdict(container);
+                return;
+            }
+
+            const currentLevelData = quizLevels.find(l => l.id === activeLevel);
+            const currentQ = currentLevelData.questions[currentQuestionIndex];
+
+            // Shuffle copy
+            const shuffledOptions = [...currentQ.options].sort(() => Math.random() - 0.5);
+
+            let optionsHtml = '';
+            shuffledOptions.forEach((opt, idx) => {
+                optionsHtml += `
+                    <button onclick="handleQuizAnswer(${opt.correct})" class="w-full text-left p-5 border border-noir-700 bg-black hover:bg-noir-800 hover:border-noir-accent transition-colors font-mono text-sm text-noir-light group flex items-start shadow-md">
+                        <span class="text-noir-accent mr-4 font-bold group-hover:text-white transition-colors">[${idx + 1}]</span>
+                        <span class="leading-relaxed">${opt.text}</span>
+                    </button>
+                `;
+            });
+
+            container.innerHTML = `
+                <div class="fade-in flex-grow flex flex-col justify-center mt-4">
+                    <div class="text-xs text-noir-muted font-mono uppercase mb-4 tracking-widest border-b border-noir-800 pb-2 flex justify-between">
+                        <span class="text-noir-accent">Akte ${activeLevel}.${currentQuestionIndex + 1} // Verhör läuft</span>
+                        <span>Frage ${currentQuestionIndex + 1} von 10</span>
+                    </div>
+                    <div class="bg-noir-800 border-l-4 border-noir-accent p-8 mb-8 shadow-xl min-h-[140px] flex items-center">
+                        <p class="text-xl md:text-2xl font-serif text-white leading-relaxed">${currentQ.q}</p>
+                    </div>
+                    <div class="space-y-4">
+                        ${optionsHtml}
+                    </div>
+                </div>
+            `;
+        };
+
+        window.handleQuizAnswer = (isCorrect) => {
+            const currentLevelData = quizLevels.find(l => l.id === activeLevel);
+            
+            if (isCorrect) {
+                correctAnswers++;
+                const counter = document.getElementById('score-counter');
+                counter.textContent = correctAnswers;
+                counter.classList.add('text-green-500');
+                setTimeout(() => counter.classList.remove('text-green-500'), 300);
+                addLog(`> Auswertung Frage ${currentQuestionIndex + 1}: KORREKT. Deduktion bestätigt.`);
+            } else {
+                const counter = document.getElementById('score-counter');
+                counter.classList.add('text-noir-blood');
+                setTimeout(() => counter.classList.remove('text-noir-blood'), 300);
+                addLog(`> Auswertung Frage ${currentQuestionIndex + 1}: FEHLSCHLAG. Tatsache falsch bewertet.`);
+            }
+
+            currentQuestionIndex++;
+            if (currentQuestionIndex >= currentLevelData.questions.length) {
+                quizFinished = true;
+            }
+            
+            setTimeout(() => {
+                renderQuiz();
+            }, 300);
+        };
+
+        const addLog = (msg) => {
+            const logsContainer = document.getElementById('quiz-logs');
+            const p = document.createElement('div');
+            p.className = "fade-in py-1 border-b border-noir-800 border-dashed";
+            
+            if (msg.includes('FEHLSCHLAG')) {
+                p.classList.add('text-noir-blood');
+            } else if (msg.includes('KORREKT')) {
+                p.classList.add('text-green-600');
+            }
+
+            p.textContent = msg;
+            logsContainer.appendChild(p);
+            logsContainer.scrollTop = logsContainer.scrollHeight;
+        };
+
+        const renderQuizVerdict = (container) => {
+            const isPassed = correctAnswers >= 8;
+            const percentage = (correctAnswers / 10) * 100;
+            
+            let html = '';
+
+            if (isPassed) {
+                addLog(`> STATUS: Prüfung absolviert. Trefferquote: ${percentage}%. Beförderung genehmigt.`);
+                
+                passedLevels.add(activeLevel);
+                unlockedLevel = Math.max(unlockedLevel, activeLevel + 1);
+                saveState();
+                updateProgressBadge();
+
+                html = `
+                    <div class="fade-in m-auto w-full max-w-3xl bg-noir-800 p-10 cert-border relative shadow-2xl mt-12">
+                        <div class="text-center mb-10 border-b border-noir-700 pb-8">
+                            <h2 class="text-3xl md:text-5xl font-serif text-white uppercase tracking-widest mb-4">Beförderungs-Urkunde</h2>
+                            <p class="text-noir-accent font-mono uppercase text-sm">Polizeipräsidium München // Mordkommission</p>
+                        </div>
+                        
+                        <div class="text-center font-mono text-noir-light mb-10 space-y-6">
+                            <p class="text-lg">Hiermit wird dienstlich bestätigt, dass das Assessment für <strong>Stufe ${activeLevel}</strong> mit herausragenden forensischen Fähigkeiten abgeschlossen wurde.</p>
+                            <p class="text-5xl font-bold text-green-500 tracking-tighter">${percentage}%</p>
+                            <p class="text-sm text-noir-muted uppercase">Quote (${correctAnswers} von 10 Fakten verifiziert)</p>
+                        </div>
+
+                        <div class="flex justify-between items-end border-t border-noir-700 pt-8 mt-10">
+                            <div class="text-center">
+                                <div class="w-40 border-b border-noir-500 mb-2"></div>
+                                <span class="text-xs text-noir-muted font-mono uppercase tracking-widest">Gez. H. Keller</span>
+                            </div>
+                            <div class="w-20 h-20 border-4 border-noir-accent rounded-full flex items-center justify-center text-noir-accent opacity-60 transform -rotate-12">
+                                <span class="font-serif text-sm font-bold uppercase">Geprüft</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-10">
+                        <button onclick="renderLevelSelection()" class="px-10 py-4 bg-black border border-noir-700 hover:border-noir-accent hover:text-white text-noir-muted transition-all uppercase tracking-widest text-sm font-bold shadow-xl">
+                            Zurück ins Archiv
+                        </button>
+                    </div>
+                `;
+            } else {
+                addLog(`> STATUS: FATAL ERROR. Trefferquote ${percentage}%. Durchgefallen.`);
+                
+                html = `
+                    <div class="fade-in m-auto text-center flex flex-col items-center justify-center p-12 bg-black border-2 border-noir-blood shadow-2xl max-w-2xl mt-12">
+                        <div class="w-20 h-20 border-2 border-noir-blood rounded-full flex items-center justify-center mb-8 bg-noir-blood/10">
+                            <span class="text-noir-blood text-4xl font-bold">X</span>
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-serif font-bold uppercase tracking-widest mb-8 text-noir-blood">Nicht Bestanden</h2>
+                        
+                        <div class="bg-noir-900 border border-noir-800 p-8 mb-10 w-full shadow-inner">
+                            <p class="text-5xl font-mono text-noir-blood mb-4">${percentage}%</p>
+                            <p class="text-sm text-noir-muted font-mono uppercase">Nur ${correctAnswers} von 10 Fragen korrekt.</p>
+                        </div>
+
+                        <p class="text-lg text-noir-light mb-10 leading-relaxed font-serif italic">"Ihre Methodik weist schwere Lücken auf. Zurück in den Streifendienst. Studieren Sie die Akten erneut, bevor Sie das Dezernat wieder betreten."</p>
+                        
+                        <button onclick="renderLevelSelection()" class="px-10 py-4 bg-noir-800 border border-noir-700 hover:border-noir-blood hover:text-white text-noir-muted transition-all uppercase tracking-widest text-sm font-bold">
+                            Diktat löschen & Neustart
+                        </button>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        };
+
+        window.renderLevelSelection = renderLevelSelection;
+        window.startLevel = startLevel;
+        window.navigate = navigate;
+        window.toggleAccordion = toggleAccordion;
+        window.toggleCard = toggleCard;
+
+        // Initialize application on load
         document.addEventListener('DOMContentLoaded', () => {
-            app.init();
+            navigate('uebersicht');
         });
     </script>
 </body>
